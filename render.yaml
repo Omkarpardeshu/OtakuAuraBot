@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: otakuaura-image-to-prompt
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.8-flash
+
+      - key: ADMIN_USER_IDS
+        sync: false
+      - key: USER_DAILY_LIMIT
+        value: "20"
+      - key: GLOBAL_DAILY_LIMIT
+        value: "500"
+      - key: REQUEST_COOLDOWN_SECONDS
+        value: "3"
+      - key: AI_MAX_RETRIES
+        value: "1"
+      - key: AI_CONCURRENCY
+        value: "3"

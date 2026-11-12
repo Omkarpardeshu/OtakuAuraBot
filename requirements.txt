@@ -1,0 +1,5 @@
+python-telegram-bot[webhooks]==22.7
+google-genai>=1.60.0,<2.0.0
+Pillow>=11.0.0,<13.0.0
+python-dotenv>=1.0.1,<2.0.0
+pymongo>=4.10,<5.0

@@ -1,0 +1,43 @@
+OTAKUAURA — BOTKEEP DEPLOYMENT NOTES
+
+1) GitHub repository ke ROOT mein OtakuAura folder ke ANDAR ka content upload karo.
+   Repository root par main.py, requirements.txt, app/, scripts/, tests/ hone chahiye.
+   Outer OtakuAura_Final_Complete_Deployment_Bundle folder ko repo ke andar extra nesting ke saath mat rakho.
+
+2) Botkeep par GitHub repository aur main branch connect karo.
+
+3) Startup command:
+   python main.py
+
+4) Environment variables Botkeep ke Environment / Secrets section mein set karo:
+   TELEGRAM_BOT_TOKEN = Telegram bot token
+   GEMINI_API_KEY = working Gemini API key
+   GEMINI_MODEL = wahi model ID jo abhi Botkeep par successfully kaam kar raha hai
+   ADMIN_USER_IDS = comma-separated numeric Telegram admin IDs
+   DATABASE_PATH = persistent storage path (agar Botkeep persistent disk deta hai)
+   AI_MAX_RETRIES = 1
+   AI_CONCURRENCY = 3
+
+   Optional:
+   MONGO_URI = MongoDB URI, only if MongoDB is being used
+   MONGO_DB_NAME = otakuaura
+   GEMINI_API_KEYS = optional comma-separated extra Gemini keys
+   GEMINI_KEYS_FILE = data/gemini_keys.json
+
+5) Botkeep deployment mein RENDER_EXTERNAL_URL environment variable set NAHI hona chahiye.
+   Ye project Render ke webhook mode ko sirf tab enable karta hai jab ye variable present ho.
+   Botkeep par normal polling mode use hoga.
+
+6) GitHub repo mein .env ya API keys / Telegram token commit mat karna. Secrets sirf Botkeep environment settings mein rakho.
+
+7) Botkeep par naya version deploy aur test karne ke baad hi purana Render instance stop karo.
+   Same Telegram token se polling karne wale do active instances ek doosre se conflict kar sakte hain.
+
+8) Latest changes:
+   - Telegram updates concurrent processing (12 updates) so commands do not wait behind Gemini image analysis.
+   - SQLite/MongoDB calls and image preparation moved off the async event loop.
+   - /start reuses Telegram's cached welcome image file_id while process is running.
+   - Image gets an immediate acknowledgement; logs separate Telegram download, image preparation, Gemini time.
+   - Copy Text native button is used only up to Telegram's 256-character limit. Longer prompts arrive as .txt attachment, not as a duplicate chat message.
+
+Note: Botkeep CPU/network and Gemini model latency still affect total time. No fixed response time can be guaranteed.
